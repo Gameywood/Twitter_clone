@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     ],
     following: [
         {
-            type: mongoose.Schema.Types.ObjectId, 
+            type: mongoose.Schema.Types.ObjectId,  
             ref:"User",
             default:[]
         }
@@ -51,6 +51,13 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:"",
     },
+    likedPosts:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Post",
+            default:[]
+        }
+    ]
 
 
 },{timestamp:true})
