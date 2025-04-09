@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "backend/server.js",
   "scripts": {
-    "dev":"nodemon backend/server.js",
+    "dev": "nodemon backend/server.js",
     "start": "node backend/server.js"
   },
   "keywords": [],
   "author": "",
-  "type":"module",
+  "type": "module",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -19,7 +19,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.1"
+    "mongoose": "^8.13.1",
+    "react-router-dom": "^7.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
