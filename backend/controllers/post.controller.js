@@ -15,8 +15,39 @@ export const createPost = async (req, res) => {
         }
 
         if (img) {
-            const uploadedResponse = await cloudinary.uploader.upload(img)
-            img = uploadedResponse.secure_url;
+            try {
+                // Validate image size (max 5MB)
+                const imgSize = Buffer.byteLength(img, 'base64');
+                if (imgSize > 5 * 1024 * 1024) {
+                    return res.status(400).json({ error: "Image size exceeds 5MB limit" });
+                }
+
+                console.log("Attempting Cloudinary upload...");
+                console.log("Cloudinary config:", {
+                    cloud_name: process.env.CLOUDINARY_CLOUD_NAME ? "set" : "not set",
+                    api_key: process.env.CLOUDINARY_API_KEY ? "set" : "not set",
+                    api_secret: process.env.CLOUDINARY_API_SECRET ? "set" : "not set"
+                });
+
+                const uploadedResponse = await cloudinary.uploader.upload(img, {
+                    resource_type: "auto",
+                    chunk_size: 6000000, // 6MB chunks
+                    timestamp: Math.round(Date.now()/1000),
+                    invalidate: true
+                });
+                console.log("Cloudinary upload successful:", uploadedResponse);
+                img = uploadedResponse.secure_url;
+            } catch (error) {
+                console.error("Cloudinary upload error details:", {
+                    message: error.message,
+                    stack: error.stack,
+                    response: error.response
+                });
+                return res.status(500).json({ 
+                    error: "Failed to upload image to Cloudinary",
+                    details: error.message 
+                });
+            }
         }
         const newPost = new Post({
             user: userId,
