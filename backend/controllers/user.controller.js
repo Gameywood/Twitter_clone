@@ -60,7 +60,7 @@ export const followUnfollowUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
-
+    
 export const getSuggestedUsers = async (req, res) => {
     try {
         const userId = req.user._id;
@@ -121,7 +121,7 @@ export const updateUser = async (req, res) => {
 
             }
             const uploadedResponse = await cloudinary.uploader.upload(profileImg)
-            profileimg = uploadedResponse.secure_url;
+            profileImg = uploadedResponse.secure_url;
         }
 
         if (coverImg) {
